@@ -53,7 +53,8 @@ public class MyServerHandler4Net extends IoHandlerAdapter {
         			+gd.getDeComVoltage()+"','"+gd.getDePowerVoltage()+"','"+gd.getDeTemp()+"','"+gd.getCheck()+"',"+gd.getWarningState()+","+gd.getO2Warning()+","
         			+gd.getCH4Warning()+",now())");
         	if (gd.getWarningState() == 1 || gd.getO2Warning() ==1 || gd.getCH4Warning() ==1) {
-        		stmt.execute("replace into `gas-warn-data` (deviceId,companyId, state, gas, dataUnit, gasLevel, low, high, gas1, gasLevel1, low1, high1, dataUnit1,"
+        		CDLogger.info("执行报警数据插入语句");
+        		stmt.execute("insert into `gas-warn-data` (deviceNo,companyId, state, gas, dataUnit, gasLevel, low, high, gas1, gasLevel1, low1, high1, dataUnit1,"
             			+ "temperature, deO2Voltage, deComVoltage, dePowerVoltage, deTemp, `check`, warningState, O2Warning, CH4Warning,createTime) values("
             			+gd.getLocalAddr()+"," + companyId + ",'"+gd.getState()+"','"+gd.getGas()+"','"+gd.getDataUnit()+"','"+gd.getGasLevel()+"','"+gd.getLow()+"','"+gd.getHigh()+"','"
             			+gd.getGas1()+"','"+gd.getGasLevel1()+"','"+gd.getLow1()+"','"+gd.getHigh1()+"','"+gd.getDataUnit1()+"','"+gd.getTemperature()+"','"+gd.getDeO2Voltage()+"','"
