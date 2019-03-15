@@ -173,7 +173,7 @@
 				title=deviceList[i].position;
 			}
 			html+=("<div class='layui-col-md2'>"+
-					"<span style='font-size:20px;font-weight:bold'>—"+title+"—</span></br></br>"+
+					"<span style='font-size:20px;font-weight:bold'>一"+title+"一</span></br></br>"+
 					"<span style='font-size:20px;font-weight:bold'>氧气浓度</span></br>"+
 					"<div style='height:40px;width:200px;position:relative'>"+
 					"<div style='position:absolute;background-color:"+o2Color+";height:38px;width:"+gasLevel*2+"px'></div>"+

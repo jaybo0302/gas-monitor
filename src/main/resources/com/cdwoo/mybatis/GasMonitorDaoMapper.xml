@@ -28,9 +28,9 @@
 			`gas-data`
 		WHERE
 			createTime &gt;= date_add(now(), INTERVAL - 3 MINUTE)
-			and companyId = ${companyId};
+			and companyId = ${companyId}
 		ORDER BY
-			id ASC;
+			deviceNo ASC;
 	</select>
 	
 	<select id="getGasWarn4App" resultType="java.util.Map">
