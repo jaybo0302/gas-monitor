@@ -93,6 +93,7 @@ $(function(){
 	$("#role").val("${u.roleId}");
 });
 $(function(){
+	$.ajaxSettings.async = false;
 	$.get("${pageContext.request.contextPath}/company/getCompanyList.do",function(result) {
 		var data = result.data;
 		$("#company").empty();
@@ -103,6 +104,7 @@ $(function(){
 		$("#company").append(str);
 	});
 	$("#company").val("${u.companyId}");
+	$.ajaxSettings.async = true;
 });
 $("#form-user-edit").validate({
 	rules:{
