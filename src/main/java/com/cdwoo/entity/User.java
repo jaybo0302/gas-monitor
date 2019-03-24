@@ -14,6 +14,7 @@ public class User {
 	private int companyId;
 	private String companyName;
 	private String roleName;
+	private String groups;
 	
 	public String getRoleName() {
 		return roleName;
@@ -81,4 +82,11 @@ public class User {
 	public void setCreateTimeStr(String createTimeStr) {
 		this.createTimeStr = createTimeStr;
 	}
+	public String getGroups() {
+		return groups;
+	}
+	public void setGroups(String groups) {
+		this.groups = groups;
+	}
+	
 }

@@ -30,7 +30,7 @@
     </insert>
     
     <update id="editUser">
-        update c_user set userName=#{userName},realName=#{realName},email=#{email}
+        update c_user set userName=#{userName},realName=#{realName},email=#{email},groups=#{groups}
         <if test="password != ''">
             ,password=#{password}
         </if>

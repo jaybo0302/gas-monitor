@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cdwoo.dao.DeviceDao">
+    <select id="queryDeviceByPage" resultType="java.util.Map">
+        select a.*,b.position,c.companyName,date_format(a.createTime, '%Y-%m-%d %H:%i:%s') createTimeStr from 
+        `gas-data` a left join `device-position` b 
+        on a.deviceNo= b.deviceNo and a.companyId = b.companyId 
+        left join `company` c on a.companyId = c.id
+        where 
+        a.companyId = ${companyId} order by a.deviceNo asc
+        limit ${pageSize} offset ${pageNo*pageSize-pageSize};
+    </select>
+    
+    <select id="queryDeviceCount" resultType="java.lang.Long">
+	    select count(*) from `gas-data` where companyId = ${companyId};
+	</select>
+	
+	<select id="getDeviceList" resultType="java.util.Map">
+		select g.*, p.position from `gas-data` g
+		left join `device-position` p on g.deviceNo = p.deviceNo and g.companyId = p.companyId
+	    where g.companyId = ${companyId} order by g.deviceNo;
+	</select>
+	
+	<update id="updateDeviceGroupId2N">
+		update `gas-data` set groupId = null where companyId = ${companyId} and groupId = ${groupId}
+	</update>
+	
+	<update id="updateDeviceGroupId">
+		update `gas-data` set groupId = ${groupId} where companyId = ${companyId} and deviceNo in (${deviceIds})
+	</update>
+	
+	<select id="getDeviceById" resultType="java.util.Map">
+		select * from `gas-data` where deviceNo = ${deviceNo} and companyId = ${companyId};
+	</select>
+	
+	<update id="editDevcie">
+		update  `gas-data` set 
+		<if test="groupId == 0">
+			groupId = null
+		</if>
+		<if test="groupId > 0">
+			groupId = ${groupId} 
+		</if>
+		where deviceNo = ${deviceNo} and companyId = ${companyId};
+	</update>
+</mapper>

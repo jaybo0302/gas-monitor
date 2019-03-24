@@ -15,9 +15,9 @@ public class GasMonitorServiceImpl implements GasMonitorService {
 
 	@Autowired GasMonitorDao gasMonitorDao;
 	@Override
-	public Object getGasInfo(int companyId) {
+	public Object getGasInfo(int userId) {
 		// TODO Auto-generated method stub
-		List<Map<String, Object>> result = gasMonitorDao.getGasInfo(companyId);
+		List<Map<String, Object>> result = gasMonitorDao.getGasInfo(userId);
 		int totalCount = result.size();
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("list", result);

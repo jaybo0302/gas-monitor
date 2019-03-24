@@ -89,4 +89,9 @@ public class UserController {
 		}
 		return CDResult.success();
 	}
+	
+	@RequestMapping("index")
+	public String index() {
+		return "jsp/user_list";
+	}
 }

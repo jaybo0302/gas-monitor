@@ -85,4 +85,9 @@ public class CompanyController {
 	public CDResult getCompanyList() {
 		return CDResult.success(this.companyService.getCompanyList());
 	}
+	
+	@RequestMapping("index")
+	public String index() {
+		return "jsp/company_list";
+	}
 }

@@ -41,7 +41,7 @@ public class GasMonitorController {
     	if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
 			return CDResult.fail("login time out");
 		}
-        return CDResult.success(gasMonitorService.getGasInfo(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId()));
+        return CDResult.success(gasMonitorService.getGasInfo(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getId()));
     }
     
     @ResponseBody

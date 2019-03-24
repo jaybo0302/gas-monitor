@@ -2,7 +2,21 @@
 		<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cdwoo.dao.GasMonitorDao">
 	<select id="getGasInfo" resultType="java.util.Map">
-		select a.*,b.position from `gas-data` a left join `device-position` b on a.deviceNo= b.deviceNo and a.companyId = b.companyId where a.companyId = ${companyId} order by a.deviceNo asc;
+		SELECT
+			a.*, b.position
+		FROM
+			`gas-data` a
+		LEFT JOIN `device-position` b ON a.deviceNo = b.deviceNo
+		AND a.companyId = b.companyId
+		WHERE
+				(SELECT
+					CONCAT('0,',groups)
+				FROM
+					c_user
+				WHERE
+					id = ${userId}) LIKE CONCAT('%,',a.groupId,',%')
+		ORDER BY
+			a.deviceNo ASC
 	</select>
 	
 	<select id="getDeviceCount" resultType = "java.lang.Long">

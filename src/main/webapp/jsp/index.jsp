@@ -94,10 +94,10 @@
 	<div id="iframe_box" class="Hui-article">
 		<div class="show_iframe">
 			<div style="display:none" class="loading"></div>
-			<c:if test="${USER_CONTEXT.id == 0}">
+			<c:if test="${USER_CONTEXT.id == 1}">
 				<iframe scrolling="yes" frameborder="0" src="${pageContext.request.contextPath}/jsp/company_list.jsp"></iframe>
 			</c:if>
-			<c:if test="${USER_CONTEXT.id != 0}">
+			<c:if test="${USER_CONTEXT.id != 1}">
 				<iframe scrolling="yes" frameborder="0" src="${pageContext.request.contextPath}/jsp/gas_monitor.jsp"></iframe>
 			</c:if>
 		</div>

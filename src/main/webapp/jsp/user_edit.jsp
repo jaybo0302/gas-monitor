@@ -65,7 +65,20 @@
 				</span>
 			</div>
 		</div>
-		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">设备组选择：</label>
+			<div class="formControls skin-minimal col-xs-5">
+				<div class="check-box">
+					<input type="checkbox" id="group_check_all" name="group_check_all">
+					<label for="checkbox-all">全选</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"></label>
+			<div class="formControls skin-minimal col-xs-9" id="deviceGroupCheckbox">
+			</div>
+		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;确定&nbsp;&nbsp;">
@@ -75,6 +88,7 @@
   </div>
 </div>
 <script type="text/javascript">
+
 $(function(){
 	$.ajax({
 		url:"${pageContext.request.contextPath}/role/getRole.do",
@@ -106,6 +120,47 @@ $(function(){
 	$("#company").val("${u.companyId}");
 	$.ajaxSettings.async = true;
 });
+
+$(function(){
+	$.get("${pageContext.request.contextPath}/deviceGroup/getDeviceGroupList.do",function(result) {
+		var data = result.data;
+		var groups ="${u.groups}";
+		groups = "," + groups;
+		$("#deviceGroupCheckbox").empty();
+		var str ="";
+		for (var i = 0;i<data.length;i++) {
+			str += ("<div class='check-box'>");
+			str += ("<input type='checkbox' value='"+data[i].id+"'name='group_check'");
+			if (groups.indexOf("," + data[i].id + ",") > -1) {
+				str += ("checked = 'checked'");
+			}
+			str + ">";
+			str += ("<label for='group_check'>"+data[i].groupName+"</label>");
+			str += ("</div>");
+		}
+		$("#deviceGroupCheckbox").append(str);
+		$('.skin-minimal input').iCheck({
+			checkboxClass: 'icheckbox-blue',
+			radioClass: 'iradio-blue',
+			increaseArea: '20%'
+		});
+		$("input").on("ifChecked", function(){
+			if(this.id == "group_check_all"){
+				$("input[name='group_check']").each(function(){
+					$(this).iCheck('check');
+				});
+			}
+		});
+		$("input").on("ifUnchecked", function(){
+			if(this.id == "group_check_all"){
+				$("input[name='group_check']").each(function(){
+					$(this).iCheck('uncheck');
+				});
+			}
+		});
+	});
+});
+
 $("#form-user-edit").validate({
 	rules:{
 		userName:{
@@ -121,8 +176,15 @@ $("#form-user-edit").validate({
 	focusCleanup:false,
 	success:"valid",
 	submitHandler:function(form){
-		$(form).ajaxSubmit(
-			{success:function(data){
+		var groups="";
+		$("input[name='group_check']").each(function(){
+			if ($(this).is(":checked")) {
+				groups+=$(this).val()+",";
+			}
+		});
+		$(form).ajaxSubmit({
+			data:{groups:groups},
+			success:function(data){
 	            if(data.success){
 	            	alert("用户编辑成功");
 	            	parent.location.reload();
@@ -135,6 +197,7 @@ $("#form-user-edit").validate({
 		);
 	}
 });
+
 </script>
 </body>
 </html>
