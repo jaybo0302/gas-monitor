@@ -32,9 +32,6 @@ public class DeviceGroupController {
 	@ResponseBody
 	@RequestMapping("queryDevicegroupByPage")
 	public CDResult queryDeviceGroupByPage (CDParam param, HttpServletRequest req) {
-		if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-			return CDResult.fail("login time out");
-		}
 		param.setCompanyId(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
 		return CDResult.success(this.deviceGroupService.queryDeviceGroupByPage(param));
 	}
@@ -62,9 +59,6 @@ public class DeviceGroupController {
 	@RequestMapping("getDeviceGroupList")
 	public CDResult getDeviceGroupList(HttpServletRequest req) {
 		try {
-			if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-				return CDResult.fail("login time out");
-			}
 			return CDResult.success(this.deviceGroupService.getDeviceGroupList(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId()));
 		} catch (Exception e) {
 			CDLogger.error(e.toString());
@@ -96,9 +90,6 @@ public class DeviceGroupController {
 	@RequestMapping("editDeviceGroup")
 	public CDResult editDevicerGroup(HttpServletRequest req) {
 		try {
-			if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-				return CDResult.fail("login time out");
-			}
 			int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
 			String groupId = req.getParameter("id");
 			String deviceIds = req.getParameter("deviceIds")+"0";

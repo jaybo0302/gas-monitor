@@ -32,9 +32,6 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("queryUserByPage")
 	public CDResult queryUserByPage(CDParam userParam, HttpServletRequest req) {
-		if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-			return CDResult.fail("login time out");
-		}
 		userParam.setCompanyId(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
 		userParam.setRoleId(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getRoleId());
 		return CDResult.success(this.userService.queryUserByPage(userParam));
@@ -90,8 +87,4 @@ public class UserController {
 		return CDResult.success();
 	}
 	
-	@RequestMapping("index")
-	public String index() {
-		return "jsp/user_list";
-	}
 }

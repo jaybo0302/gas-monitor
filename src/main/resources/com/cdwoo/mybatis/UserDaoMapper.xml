@@ -8,7 +8,7 @@
          left join company c on u.companyId = c.id
          left join c_role r on u.roleId = r.id
          where u.status = 1 and u.id != 0 
-         <if test="roleId > 0">
+         <if test="roleId > 1">
              and u.companyId = ${companyId}
          </if>
          limit ${pageSize} offset ${pageNo*pageSize-pageSize};
@@ -17,7 +17,7 @@
     <select id="queryUserCount" resultType="java.lang.Long">
 	    select count(*) from c_user where status =1 and id != 0
 	    <if test="roleId > 0">
-        	and companyId = ${companyId}     
+        	and companyId = ${companyId}
         </if>
 	</select>
 	

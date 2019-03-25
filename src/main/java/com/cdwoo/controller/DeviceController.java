@@ -31,9 +31,6 @@ public class DeviceController {
 	@ResponseBody
 	@RequestMapping("queryDeviceByPage")
 	public CDResult queryDeviceByPage (CDParam param, HttpServletRequest req) {
-		if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-			return CDResult.fail("login time out");
-		}
 		param.setCompanyId(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
 		return CDResult.success(this.deviceService.queryDeviceByPage(param));
 	}
@@ -55,9 +52,6 @@ public class DeviceController {
 	@ResponseBody
 	@RequestMapping("editDevice")
 	public CDResult editDevice (HttpServletRequest req) {
-		if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-			return CDResult.fail("login time out");
-		}
 		String deviceNo = req.getParameter("deviceNo");
 		int groupId = Integer.parseInt(req.getParameter("groupId"));
 		int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
@@ -65,8 +59,4 @@ public class DeviceController {
 		return CDResult.success();
 	}
 	
-	@RequestMapping("index")
-	public String index() {
-		return "jsp/device_list";
-	}
 }

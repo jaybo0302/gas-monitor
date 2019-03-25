@@ -31,9 +31,6 @@ public class CompanyController {
 	@ResponseBody
 	@RequestMapping("queryCompanyByPage")
 	public CDResult queryCompanyByPage (CDParam param, HttpServletRequest req) {
-		if (req.getSession().getAttribute(Constants.USER_CONTEXT) == null) {
-			return CDResult.fail("login time out");
-		}
 		return CDResult.success(companyService.queryCompanyByPage(param));
 	}
 	
@@ -84,10 +81,5 @@ public class CompanyController {
 	@RequestMapping("getCompanyList")
 	public CDResult getCompanyList() {
 		return CDResult.success(this.companyService.getCompanyList());
-	}
-	
-	@RequestMapping("index")
-	public String index() {
-		return "jsp/company_list";
 	}
 }
