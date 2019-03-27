@@ -3,7 +3,7 @@
 
 <mapper namespace="com.cdwoo.dao.CompanyDao">
     <select id="queryCompanyByPage" resultType="java.util.Map">
-        select * from company where id != 0 limit ${pageSize} offset ${pageNo*pageSize-pageSize};
+        select * from company where id != 1 limit ${pageSize} offset ${pageNo*pageSize-pageSize};
     </select>
     
     <select id="queryCompanyCount" resultType="java.lang.Long">
