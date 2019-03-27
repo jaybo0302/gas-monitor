@@ -15,4 +15,5 @@ public interface DeviceGroupDao {
 	void addDeviceGroup(@Param("groupName")String groupName,@Param("companyId")int companyId);
 	List<Map<String, Object>> getDeviceGroup(@Param("id")int id);
 	void updateDeviceGroup(@Param("groupName")String groupName, @Param("groupId")String groupId);
+	void deleteGroup(@Param("id")String id);
 }

@@ -7,13 +7,20 @@
         `gas-data` a left join `device-position` b 
         on a.deviceNo= b.deviceNo and a.companyId = b.companyId 
         left join `company` c on a.companyId = c.id
-        where 
-        a.companyId = ${companyId} order by a.deviceNo asc
+        where 1=1
+        <if test="companyId > 1">
+        	and a.companyId = ${companyId}
+        </if>
+         order by a.companyId,a.deviceNo asc
         limit ${pageSize} offset ${pageNo*pageSize-pageSize};
     </select>
     
     <select id="queryDeviceCount" resultType="java.lang.Long">
-	    select count(*) from `gas-data` where companyId = ${companyId};
+    	
+	    select count(*) from `gas-data` where 1=1 
+	    <if test="companyId > 1">
+        	and companyId = ${companyId}
+        </if>
 	</select>
 	
 	<select id="getDeviceList" resultType="java.util.Map">

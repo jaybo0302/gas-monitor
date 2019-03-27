@@ -33,7 +33,7 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 
 	@Override
 	public void deleteGroup(String id) {
-		
+		this.deviceGroupDao.deleteGroup(id);
 	}
 
 	@Override

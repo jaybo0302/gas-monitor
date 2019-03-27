@@ -19,6 +19,17 @@
   <div class="Huiform">
     <form action="${pageContext.request.contextPath}/deviceGroup/addDeviceGroup.do" method="post" class="form form-horizontal" id="form-deviceGroup-edit">
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>船厂：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="select-box">
+				<select class="select" id="companyId" name="companyId">
+					<option value="0">顶级分类</option>
+					<option value="10">分类一级</option>
+				</select>
+				</span>
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>分组名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text"   id="groupName" name="groupName">
@@ -34,6 +45,23 @@
 </div>
 </body>
 <script type="text/javascript">
+$(function(){
+	if (${USER_CONTEXT.roleId} > 1) {
+		$("#companyId").empty();
+		var str = "<option value='${USER_CONTEXT.companyId}'>${USER_CONTEXT.companyName}</option>";
+		$("#companyId").append(str);
+	} else {
+		$.get("${pageContext.request.contextPath}/company/getCompanyList.do",function(result) {
+			var data = result.data;
+			$("#companyId").empty();
+			var str ="";
+			for (var i = 0;i<data.length;i++) {
+				str+=("<option value='"+data[i].id+"'>"+data[i].companyName+"</option>");
+			}
+			$("#companyId").append(str);
+		});
+	}
+});
 $("#form-deviceGroup-edit").validate({
 	rules:{
 		groupName:{

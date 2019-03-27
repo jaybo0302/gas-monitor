@@ -122,7 +122,8 @@ $(function(){
 });
 
 $(function(){
-	$.get("${pageContext.request.contextPath}/deviceGroup/getDeviceGroupList.do",function(result) {
+	var companyId = "${u.companyId}";
+	$.get("${pageContext.request.contextPath}/deviceGroup/getDeviceGroupList.do?companyId="+companyId,function(result) {
 		var data = result.data;
 		var groups ="${u.groups}";
 		groups = "," + groups;

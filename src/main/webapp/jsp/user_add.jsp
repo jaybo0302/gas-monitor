@@ -18,7 +18,7 @@
 <div class="pd-20">
   <div class="Huiform">
     <form action="${pageContext.request.contextPath}/user/addUser.do" method="post" class="form form-horizontal" id="form-user-add">
-		<div class="row cl">
+	    <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>船厂：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<span class="select-box">
@@ -86,7 +86,7 @@ $(function(){
 	});
 });
 $(function(){
-	if (${USER_CONTEXT.roleId} > 0) {
+	if (${USER_CONTEXT.roleId} > 1) {
 		$("#companyId").empty();
 		var str = "<option value='${USER_CONTEXT.companyId}'>${USER_CONTEXT.companyName}</option>";
 		$("#companyId").append(str);

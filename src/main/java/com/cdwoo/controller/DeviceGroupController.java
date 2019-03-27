@@ -58,8 +58,12 @@ public class DeviceGroupController {
 	@ResponseBody
 	@RequestMapping("getDeviceGroupList")
 	public CDResult getDeviceGroupList(HttpServletRequest req) {
+		int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
 		try {
-			return CDResult.success(this.deviceGroupService.getDeviceGroupList(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId()));
+			if (companyId == 1) {
+				companyId = Integer.parseInt(req.getParameter("companyId"));
+			}
+			return CDResult.success(this.deviceGroupService.getDeviceGroupList(companyId));
 		} catch (Exception e) {
 			CDLogger.error(e.toString());
 			return CDResult.fail("获取设备分组错误");
@@ -70,8 +74,12 @@ public class DeviceGroupController {
 	@RequestMapping("addDeviceGroup")
 	public CDResult addDeviceGroup (HttpServletRequest req) {
 		String groupName = req.getParameter("groupName");
+		int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
 		try {
-			this.deviceGroupService.addDeviceGroup(groupName, ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
+			if (companyId == 1) {
+				companyId = Integer.parseInt(req.getParameter("companyId"));
+			}
+			this.deviceGroupService.addDeviceGroup(groupName, companyId);
 			return CDResult.success();
 		} catch (Exception e) {
 			CDLogger.error(e.toString());
@@ -91,6 +99,9 @@ public class DeviceGroupController {
 	public CDResult editDevicerGroup(HttpServletRequest req) {
 		try {
 			int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
+			if (companyId == 1) {
+				companyId = Integer.parseInt(req.getParameter("companyId"));
+			}
 			String groupId = req.getParameter("id");
 			String deviceIds = req.getParameter("deviceIds")+"0";
 			String groupName = req.getParameter("groupName");
@@ -102,10 +113,5 @@ public class DeviceGroupController {
 		} catch (Exception e) {
 			return CDResult.fail("修改分组失败");
 		}
-	}
-	
-	@RequestMapping("index")
-	public String index() {
-		return "jsp/device_group_list";
 	}
 }

@@ -59,12 +59,12 @@
     					   {"title":"分组",
     						"icon":"&#xe6df;",
     						"function":"editDevice",
-    						"param":"deviceNo"}
+    						"param":"deviceNo,companyId"}
     				   ]}];
 	var moduleName = "device";
 	
-	function editDevice(id,deviceNo) {
-		layer_show("编辑设备","${pageContext.request.contextPath}/device/getEditPage.do?id="+deviceNo,800,500);
+	function editDevice(id,deviceNo,companyId) {
+		layer_show("编辑设备","${pageContext.request.contextPath}/device/getEditPage.do?id="+deviceNo+"&companyId="+companyId,800,500);
 	}
 </script>
 </html>

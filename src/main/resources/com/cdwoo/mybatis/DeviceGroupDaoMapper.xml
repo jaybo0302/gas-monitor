@@ -5,13 +5,19 @@
     <select id="queryDeviceGroupByPage" resultType="java.util.Map">
         select d.*,c.companyName ,date_format(d.createTime, '%Y-%m-%d %H:%i:%s') createTimeStr from 
         `device-group` d left join `company` c on d.companyId = c.id 
-        where 
-        d.companyId = ${companyId} order by d.id asc 
+        where 1=1
+        <if test="companyId > 1">
+        	and d.companyId = ${companyId}
+        </if>
+        order by d.id asc 
         limit ${pageSize} offset ${pageNo*pageSize-pageSize};
     </select>
     
     <select id="queryDeviceGroupCount" resultType="java.lang.Long">
-	    select count(*) from `device-group` where companyId = ${companyId};
+	    select count(*) from `device-group` where 1=1
+	    <if test="companyId > 1">
+        	and companyId = ${companyId}
+        </if>
 	</select>
 	
 	<select id="checkUserWithGroup" resultType="java.lang.Long">

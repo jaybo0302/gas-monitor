@@ -38,13 +38,21 @@ public class DeviceController {
 	@ResponseBody
 	@RequestMapping("getDeviceList")
 	public CDResult getDeviceList(HttpServletRequest req) {
-		List<Map<String, Object>> deviceList = this.deviceService.getDeviceList(((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
+		int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
+		if (companyId == 1) {
+			companyId = Integer.parseInt(req.getParameter("companyId"));
+		}
+		List<Map<String, Object>> deviceList = this.deviceService.getDeviceList(companyId);
 		return CDResult.success(deviceList);
 	}
 	
 	@RequestMapping("getEditPage")
-	public String getEditPage(@RequestParam("id") String id, HttpServletRequest req) {
-		Map<String, Object> device = this.deviceService.getDeviceById(id,((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId());
+	public String getEditPage(@RequestParam("id") String id, @RequestParam("companyId") String companyId, HttpServletRequest req) {
+		int currentCompanyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
+		if (currentCompanyId == 1) {
+			currentCompanyId = Integer.parseInt(companyId);
+		}
+		Map<String, Object> device = this.deviceService.getDeviceById(id, currentCompanyId);
 		req.setAttribute("device", device);
 		return "jsp/device_edit";
 	}
@@ -55,6 +63,9 @@ public class DeviceController {
 		String deviceNo = req.getParameter("deviceNo");
 		int groupId = Integer.parseInt(req.getParameter("groupId"));
 		int companyId = ((User)req.getSession().getAttribute(Constants.USER_CONTEXT)).getCompanyId();
+		if (companyId == 1) {
+			companyId = Integer.parseInt(req.getParameter("companyId"));
+		}
 		this.deviceService.editDevice(deviceNo, companyId, groupId);
 		return CDResult.success();
 	}

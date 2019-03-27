@@ -23,6 +23,7 @@
   <div class="Huiform">
     <form action="${pageContext.request.contextPath}/deviceGroup/editDeviceGroup.do" method="post" class="form form-horizontal" id="form-DeviceGroup-edit">
 		<input type="hidden" name="id" value="${dg.id}" />
+		<input type="hidden" name="companyId" value="${dg.companyId}" />
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>分组名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -55,7 +56,8 @@
 <script type="text/javascript">
 $(function() {
 	var groupId = "${dg.id}";
-	$.get("${pageContext.request.contextPath}/device/getDeviceList.do",function(result) {
+	var companyId = "${dg.companyId}";
+	$.get("${pageContext.request.contextPath}/device/getDeviceList.do?companyId="+companyId,function(result) {
 		var data = result.data;
 		$("#deviceCheckbox").empty();
 		

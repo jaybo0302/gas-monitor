@@ -23,6 +23,7 @@
   <div class="Huiform">
     <form action="${pageContext.request.contextPath}/device/editDevice.do" method="post" class="form form-horizontal" id="form-device-edit">
 		<input type="hidden" name="deviceNo" value="${device.deviceNo}" />
+		<input type="hidden" name="companyId" value="${device.companyId}" />
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">设备组选择：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -45,8 +46,9 @@
 </body>
 <script type="text/javascript">
 $(function() {
+	var companyId = "${device.companyId}";
 	$.ajax({
-		url:"${pageContext.request.contextPath}/deviceGroup/getDeviceGroupList.do",
+		url:"${pageContext.request.contextPath}/deviceGroup/getDeviceGroupList.do?companyId=" + companyId,
 		async:false,
 		method:"GET",
 		success:function(result) {
