@@ -52,7 +52,7 @@
 		<if test="deviceNo != null and deviceNo != ''">
 		 and deviceNo = ${deviceNo}
 		</if>
-		and companyId = ${companyId};
+		and companyId = ${companyId}
 		order by createTime desc
 	</select>
 	
