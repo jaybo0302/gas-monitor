@@ -56,6 +56,17 @@ public class GasMonitorServiceImpl implements GasMonitorService {
 		resultMap.put("devices_state", returnResult);
 		return resultMap;
 	}
+	
+	@Override
+	public Object getGasInfo4Appv2(int no, int companyId, int groupId, String userName) {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> returnResult = gasMonitorDao.getGasInfo4Appv2(no,companyId, groupId);
+		List<Map<String, Integer>> warnList = gasMonitorDao.getWarnNumGroupByGroupId(userName);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("devices_warning", warnList);
+		resultMap.put("devices_state", returnResult);
+		return resultMap;
+	}
 	@Override
 	public Object getGasWarn4App(String start, String end, String deviceId,String companyId) {
 		return gasMonitorDao.getGasWarn4App(start,end,deviceId, companyId);

@@ -23,8 +23,10 @@
 </head>
 
 <body>
-<div class="page-container">
 	<br/>
+	<div>
+		<span>&nbsp;共&nbsp;</span><i id="totalCount">0</i><span>&nbsp;条数据</span>
+	</div>
 	<table class="table table-border table-bordered table-hover table-bg table-sort" id ="deviceTable">
 	</table>
 	<br/>
@@ -42,6 +44,8 @@
 		   		       "name":"deviceNo"}
     				 ,{"field":"船厂名称",
     				   "name":"companyName"}
+    				 ,{"field":"分组名称",
+      				   "name":"groupName"}
     				 ,{"field":"最近使用时间",
     				   "name":"createTimeStr"}
     				 ,{"field":"位置",

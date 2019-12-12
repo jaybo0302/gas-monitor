@@ -3,10 +3,11 @@
 
 <mapper namespace="com.cdwoo.dao.DeviceDao">
     <select id="queryDeviceByPage" resultType="java.util.Map">
-        select a.*,b.position,c.companyName,date_format(a.createTime, '%Y-%m-%d %H:%i:%s') createTimeStr from 
+        select dg.groupName,a.*,b.position,c.companyName,date_format(a.createTime, '%Y-%m-%d %H:%i:%s') createTimeStr from 
         `gas-data` a left join `device-position` b 
         on a.deviceNo= b.deviceNo and a.companyId = b.companyId 
         left join `company` c on a.companyId = c.id
+        left join `device-group` dg on a.groupId = dg.id
         where 1=1
         <if test="companyId > 1">
         	and a.companyId = ${companyId}

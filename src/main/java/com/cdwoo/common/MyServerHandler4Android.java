@@ -77,5 +77,6 @@ public class MyServerHandler4Android extends IoHandlerAdapter {
     public void exceptionCaught(IoSession session, Throwable cause)
             throws Exception {
     	CDLogger.info("服务端异常..." + cause);
+    	cause.printStackTrace();
     }
 }

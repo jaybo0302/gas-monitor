@@ -16,4 +16,5 @@ public interface DeviceGroupDao {
 	List<Map<String, Object>> getDeviceGroup(@Param("id")int id);
 	void updateDeviceGroup(@Param("groupName")String groupName, @Param("groupId")String groupId);
 	void deleteGroup(@Param("id")String id);
+	List<Map<String, Object>> getDeviceGroupByUserName(@Param("userName")String userName);
 }

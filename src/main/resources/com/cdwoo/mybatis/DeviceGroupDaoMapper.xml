@@ -43,4 +43,34 @@
 	<update id= "updateDeviceGroup">
 		update `device-group` set groupName = #{groupName} where id = ${groupId};
 	</update>
+	
+	<select id="getDeviceGroupByUserName" resultType = "java.util.Map">
+		SELECT
+			dg.id group_id,
+			dg.groupName group_name,
+			a.child_num
+		FROM
+			`device-group` dg
+		LEFT JOIN (
+			SELECT
+				groupId,
+				count(*) child_num
+			FROM
+				`gas-data`
+			GROUP BY
+				groupId
+		) a ON dg.id = a.groupId
+		WHERE
+			CONCAT(
+				',',
+				(
+					SELECT
+						groups
+					FROM
+						c_user
+					WHERE
+						userName = #{userName}
+				)
+			) LIKE CONCAT("%,", dg.id, ",%")
+	</select>
 </mapper>

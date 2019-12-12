@@ -15,6 +15,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
@@ -58,9 +61,9 @@ public class DataReceiveServer {
 			// 创建一个非阻塞的server端的Socket 可以不指定线程数量，MINA2里面默认是CPU数量+2
 			acceptor = new NioSocketAcceptor();
 			// 设置过滤器（使用Mina提供的文本换行符编解码器）
-			Executor threadPool = Executors.newFixedThreadPool(100);
+			ThreadPoolExecutor executor = new ThreadPoolExecutor(20, 50, 2000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 			//加入过滤器（Filter）到Acceptor
-			acceptor.getFilterChain().addLast("exector", new ExecutorFilter(threadPool));
+			acceptor.getFilterChain().addLast("exector", new ExecutorFilter(executor));
 			if ("net".equals(PropertiesUtil.get(ResourceUtils.getFile("classpath:com/cdwoo/conf/constants/constants.properties").getPath(), "mode").toLowerCase())) {
 				acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MyCodecFactory4Net()));
 				// 绑定逻辑处理器

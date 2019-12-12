@@ -1,5 +1,6 @@
 package com.cdwoo.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,13 @@ public class DeviceGroupServiceImpl implements DeviceGroupService {
 	@Override
 	public void updateDeviceGroup(String groupName, String groupId) {
 		this.deviceGroupDao.updateDeviceGroup(groupName, groupId);
+	}
+
+	@Override
+	public Object getDeviceGroupByUserName(String userName) {
+		Map<String, Object> map  =new HashMap<>();
+		map.put("devices_group", deviceGroupDao.getDeviceGroupByUserName(userName));
+		return map;
 	}
 	
 }

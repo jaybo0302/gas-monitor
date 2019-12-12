@@ -47,6 +47,33 @@
 			deviceNo ASC;
 	</select>
 	
+	<select id="getGasInfo4Appv2" resultType="java.util.Map">
+		SELECT
+			gd.deviceNo,
+			gd.gasLevel O2,
+			gd.O2Warning O2_state,
+			gd.gasLevel1 CH4,
+			gd.CH4Warning CH4_state,
+			gd.temperature,
+			CASE 
+			   when (100-(4100 - dePowerVoltage)*100/700) &gt;= 100
+		       then 100
+		       when (100-(4100 - dePowerVoltage)*100/700) &lt; 100
+		       then (100-(4100 - dePowerVoltage)*100/700) 
+		    END power ,
+			gd.deTemp person_num,
+			gd.position
+		FROM
+			`gas-data` gd left join `device-position` dp on  gd.deviceNo = dp.deviceNo and gd.companyId = dp.companyId
+		WHERE
+			createTime &gt;= date_add(now(), INTERVAL - 3 MINUTE)
+			and gd.companyId = ${companyId}
+			and gd.groupId = ${groupId}
+		ORDER BY
+			gd.deviceNo ASC
+		limit $(no) offset ($(no)-1)*10;
+	</select>
+	
 	<select id="getGasWarn4App" resultType="java.util.Map">
 		select deviceNo,gasLevel O2, O2Warning O2_state,low O2_low,high O2_high,gasLevel1 CH4, CH4Warning CH4_state ,low1 CH4_low,high1 CH4_high,deTemp person_num, createTime from `gas-warn-data` where createTime &gt; #{start} and createTime &lt; #{end}
 		<if test="deviceNo != null and deviceNo != ''">
@@ -58,5 +85,35 @@
 	
 	<select id="setPosition">
 	    replace into `device-position` (deviceNo,companyId, position, updateTime) values (${deviceNo},${companyId}, #{position}, now());
+	</select>
+	
+	<select id="getWarnNumGroupByGroupId" resultType="java.util.Map">
+		SELECT
+			dg.id group_id,
+			dg.groupName group_name,
+			a.warning_num
+		FROM
+			`device-group` dg
+		LEFT JOIN (
+			SELECT
+				groupId,
+				count(*) warning_num
+			FROM
+				`gas-data` where (`O2Warning` = 1 or `CH4Warning` = 1) and createTime &gt;= date_add(now(), INTERVAL - 3 MINUTE)
+			GROUP BY
+				groupId
+		) a ON dg.id = a.groupId
+		WHERE
+			CONCAT(
+				',',
+				(
+					SELECT
+						groups
+					FROM
+						c_user
+					WHERE
+						userName = #{userName}
+				)
+			) LIKE CONCAT("%,", dg.id, ",%") and a.warn_num &gt; 0
 	</select>
 </mapper>

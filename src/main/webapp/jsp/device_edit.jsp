@@ -73,7 +73,7 @@ $("#form-device-edit").validate({
 			success:function(data){
 				if (data.success){
 					alert("修改成功");
-					parent.location.reload();
+					parent.refresh(parent.currentNo);
 					var index = parent.layer.getFrameIndex(window.name);
 	        		parent.layer.close(index);
 				} else {

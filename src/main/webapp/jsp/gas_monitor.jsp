@@ -98,7 +98,7 @@
 	  });
 	});
 	var a = self.setInterval("setData()", 10 * 1000);
-	var b = self.setInterval("getData()", 3000 * 1000);
+	var b = self.setInterval("getData()", 3 * 1000);
 	function setData() {
 		if (totalCount == 0) {
 			$(".layui-row").html("");

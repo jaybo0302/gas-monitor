@@ -24,7 +24,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>INDEX</title>
+<title>船管平台</title>
 </head>
 <body>
 <header class="navbar-wrapper">
@@ -63,7 +63,7 @@
 	<c:forEach var="r" begin="1" end="${rs.size()}" items="${rs}" step = "1">
 		<c:if test="${r.pId ==1}">
 			<dl>
-				<dt>${r.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+				<dt><i class='Hui-iconfont'>&#xe716;</i>&nbsp;&nbsp;${r.name}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 				<dd>
 					<ul>
 						<c:forEach var="r1" begin="1" end="${rs.size()}" items="${rs}" step = "1">
@@ -138,7 +138,9 @@ function member_add(title,url,w,h){
 	layer_show(title,url,w,h);
 }
 $(document).ready(function(){
-	displaynavbar($(".pngfix"));
+	if ("${USER_CONTEXT.id}" != "1") {
+		displaynavbar($(".pngfix"));
+	}
 });
 </script> 
 </body>

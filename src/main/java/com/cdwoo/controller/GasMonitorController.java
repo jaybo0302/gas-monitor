@@ -17,6 +17,7 @@ import com.cdwoo.common.CDLogger;
 import com.cdwoo.common.CDResult;
 import com.cdwoo.common.Constants;
 import com.cdwoo.entity.User;
+import com.cdwoo.service.DeviceGroupService;
 import com.cdwoo.service.GasMonitorService;
 import com.cdwoo.service.UserService;
 import com.cdwoo.utils.Base64Utils;
@@ -34,6 +35,8 @@ public class GasMonitorController {
     private GasMonitorService gasMonitorService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private DeviceGroupService deviceGroupService;
 
     @ResponseBody
     @RequestMapping("/index")
@@ -62,6 +65,32 @@ public class GasMonitorController {
 			return CDResult.fail("invalid token");
 		}
     	return CDResult.success(gasMonitorService.getGasInfo4App(no, companyId));
+    }
+    
+    @ResponseBody
+    @RequestMapping("data4Appv2")
+    public Object data4Appv2 (HttpServletRequest request) {
+    	String page = request.getParameter("page");
+    	String token = request.getParameter("token");
+    	int groupId = Integer.parseInt(request.getParameter("groupId"));
+		String deToken="";
+		try {
+			deToken = RSAUtils.decryptDataOnJava(new String(Base64Utils.decode(token)), Constants.PRIVATEKEY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	int no = 1;
+    	int companyId = 0;
+    	String userName;
+    	try {
+			no = Integer.parseInt(page);
+			companyId = Integer.parseInt(deToken.split("##")[2]);
+			userName = deToken.split("##")[1];
+		} catch (Exception e) {
+			CDLogger.error(e.toString());
+			return CDResult.fail("invalid token");
+		}
+    	return CDResult.success(gasMonitorService.getGasInfo4Appv2(no, companyId, groupId, userName));
     }
 
     @ResponseBody
@@ -114,7 +143,25 @@ public class GasMonitorController {
 			}
         }
 	}
-	
+	@ResponseBody
+	@RequestMapping("getDeviceGroup")
+	public Object getDeviceGroup(HttpServletRequest req) {
+		String token = req.getParameter("token");
+		String userName;
+		String deToken="";
+		try {
+			deToken = RSAUtils.decryptDataOnJava(new String(Base64Utils.decode(token)), Constants.PRIVATEKEY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			userName = deToken.split("##")[1];
+		} catch (Exception e) {
+			CDLogger.error(e.toString());
+			return CDResult.fail("invalid token");
+		}
+		return CDResult.success(deviceGroupService.getDeviceGroupByUserName(userName));
+	}
 	@ResponseBody
 	@RequestMapping("checkToken")
 	public Object checkToken(HttpServletRequest req) {

@@ -22,4 +22,6 @@ public interface DeviceGroupService {
 
 	void updateDeviceGroup(String groupName, String groupId);
 
+	Object getDeviceGroupByUserName(String userName);
+
 }
